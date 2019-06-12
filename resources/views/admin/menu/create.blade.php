@@ -17,7 +17,9 @@
                 <select name="pid" lay-verify="required" lay-filter="pid">
                     <option value="0">顶级菜单</option>
                     @foreach($top_menu as $m)
-                        <option value="{{ $m->id }}">{{ $m->name }}</option>
+                        @if($m->id != 1)
+                            <option value="{{ $m->id }}">{{ $m->name }}</option>
+                        @endif
                     @endforeach
                 </select>
             </div>
@@ -32,7 +34,7 @@
                     @endforeach
                 </select>
             </div>
-            <div class="layui-form-mid layui-word-aux">路由名称以".index"结尾的路由</div>
+            <div class="layui-form-mid layui-word-aux">请使用包含test的测试路由</div>
         </div>
         <div class="layui-form-item" style="width: 800px;">
             <label class="layui-form-label">可见角色</label>

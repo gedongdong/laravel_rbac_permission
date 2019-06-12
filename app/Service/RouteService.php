@@ -31,6 +31,7 @@ class RouteService
         $routes = [];
 
         $all_routes = app()->routes->getRoutes();
+        dd($all_routes);
         foreach ($all_routes as $k => $value) {
             if (key_exists('as', $value->action) && !ends_with($value->action['as'], '.white') && ends_with($value->action['as'], '.index')) {
                 $routes[] = $value->action['as'];

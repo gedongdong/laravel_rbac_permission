@@ -55,6 +55,12 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
             Route::get('/menu/edit', 'MenuController@edit')->name('admin.menu.edit');
             Route::post('/menu/update', 'MenuController@update')->name('admin.menu.update');
             Route::post('/menu/delete', 'MenuController@delete')->name('admin.menu.delete');
+
+            Route::get('/test1', 'TestController@test1')->name('admin.test1.index');
+            Route::get('/test2', 'TestController@test2')->name('admin.test2.index');
+            Route::get('/test3', 'TestController@test3')->name('admin.test3.index');
+            Route::get('/test4', 'TestController@test4')->name('admin.test4.index');
+            Route::get('/test5', 'TestController@test5')->name('admin.test5.index');
         });
     });
 });

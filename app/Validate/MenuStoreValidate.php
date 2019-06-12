@@ -42,10 +42,10 @@ class MenuStoreValidate extends BaseValidate
         $route = $this->requestData['route'];
         $role  = $this->requestData['role'] ?? '';
 
-        if ($pid < 0) {
+        if ($pid <= 1) {
             $this->validator->errors()->add('pid', '父级菜单参数不正确');
             return false;
-        } elseif ($pid > 0) {
+        } elseif ($pid > 1) {
             if (!Menu::find($pid)) {
                 $this->validator->errors()->add('pid', '父级菜单不存在');
                 return false;
@@ -53,7 +53,7 @@ class MenuStoreValidate extends BaseValidate
         }
 
         if ($pid != 0) {
-            $routes = RouteService::getRoutes();
+            $routes = RouteService::getMenuRoutes();
             if (!in_array($route, $routes)) {
                 $this->validator->errors()->add('route', '路由标识不存在');
                 return false;
