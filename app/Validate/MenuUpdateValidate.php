@@ -59,7 +59,8 @@ class MenuUpdateValidate extends BaseValidate
             }
         }
 
-        if (!Menu::find($id)) {
+        $menu = Menu::find($id);
+        if (!$menu) {
             $this->validator->errors()->add('id', '菜单信息不正确');
             return false;
         }
@@ -71,6 +72,9 @@ class MenuUpdateValidate extends BaseValidate
 
         if ($pid != 0) {
             $routes = RouteService::getMenuRoutes();
+            if ($menu->route) {
+                array_push($routes, $menu->route);
+            }
             if (!in_array($route, $routes)) {
                 $this->validator->errors()->add('route', '路由标识不存在');
                 return false;

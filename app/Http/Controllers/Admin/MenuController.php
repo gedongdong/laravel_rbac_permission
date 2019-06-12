@@ -114,6 +114,9 @@ class MenuController extends Controller
 
         //获取所有路由标识
         $routes = RouteService::getMenuRoutes();
+        if ($menu->route) {
+            array_push($routes, $menu->route);
+        }
 
         return view('admin.menu.edit', ['roles' => $roles, 'error' => $error, 'role_ids' => $role_ids, 'menu' => $menu, 'top_menu' => $top_menu, 'routes' => $routes]);
     }

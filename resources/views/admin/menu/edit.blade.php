@@ -52,7 +52,7 @@
                     @endforeach
                 </select>
             </div>
-            <div class="layui-form-mid layui-word-aux">请使用包含test的测试路由</div>
+            <div class="layui-form-mid layui-word-aux">作为菜单路由只能使用一次</div>
         </div>
         <div class="layui-form-item" style="width: 800px;">
             <label class="layui-form-label">可见角色</label>
