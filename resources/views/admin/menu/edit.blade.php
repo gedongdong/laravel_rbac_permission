@@ -3,7 +3,7 @@
 @section('content')
     <a href="{{ route('admin.menu.index') }}" class="layui-btn layui-btn-primary layui-btn-sm">返回</a>
     <hr>
-    <form class="layui-form" action="" style="width: 900px;">
+    <form class="layui-form" action="" style="width: 1000px;">
         <div class="layui-form-item" style="width: 500px;">
             <label class="layui-form-label">菜单名称</label>
             <div class="layui-input-block">
@@ -32,15 +32,15 @@
                 </select>
             </div>
         </div>
-        <div class="layui-form-item" id="route" style="width: 500px;
+        <div class="layui-form-item" id="route" style="width: 1000px;
         @if($menu->pid==0)
                 display:none;
         @endif
                 ">
-            <label class="layui-form-label">路由标识</label>
-            <div class="layui-input-block">
+            <label class="layui-form-label">菜单路由</label>
+            <div class="layui-input-inline">
                 <select name="route">
-                    <option value="">请选择路由标识</option>
+                    <option value="">请选择菜单路由</option>
                     @foreach($routes as $route)
                         <option value="{{ $route}}"
                                 @if($route == $menu->route)
@@ -50,6 +50,7 @@
                     @endforeach
                 </select>
             </div>
+            <div class="layui-form-mid layui-word-aux">路由名称以".index"结尾的路由</div>
         </div>
         <div class="layui-form-item" style="width: 800px;">
             <label class="layui-form-label">可见角色</label>
@@ -120,9 +121,9 @@
                 $('#pid_roles input').removeAttr('checked');
                 $('#pid_' + pid).show();
 
-                if(pid == 0){
+                if (pid == 0) {
                     $('#route').hide();
-                }else{
+                } else {
                     $('#route').show();
                 }
                 form.render();

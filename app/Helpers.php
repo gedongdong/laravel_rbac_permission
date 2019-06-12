@@ -3,7 +3,7 @@ function can()
 {
     $currRouteName = \Illuminate\Support\Facades\Route::currentRouteName();
 
-    if (ends_with($currRouteName, 'white')) {
+    if (ends_with($currRouteName, '.white')) {
         return true;
     }
 
@@ -21,4 +21,20 @@ function can()
         return true;
     }
     return false;
+}
+
+
+if (! function_exists('ends_with')) {
+    /**
+     * Determine if a given string ends with a given substring.
+     *
+     * @param  string  $haystack
+     * @param  string|array  $needles
+     * @return bool
+     *
+     */
+    function ends_with($haystack, $needles)
+    {
+        return \Illuminate\Support\Str::endsWith($haystack, $needles);
+    }
 }

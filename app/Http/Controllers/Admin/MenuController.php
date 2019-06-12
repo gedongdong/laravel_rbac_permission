@@ -42,7 +42,7 @@ class MenuController extends Controller
     public function create()
     {
         $top_menu = Menu::with('roles')->where('pid', '=', 0)->select('id', 'name')->get();
-        $routes   = RouteService::getRoutes();
+        $routes   = RouteService::getMenuRoutes();
         $roles    = Roles::all();
         return view('admin.menu.create', ['top_menu' => $top_menu, 'routes' => $routes, 'roles' => $roles]);
     }
@@ -113,7 +113,7 @@ class MenuController extends Controller
         $top_menu = Menu::with('roles')->where('pid', '=', 0)->where('id', '!=', $menu_id)->select('id', 'name')->get();
 
         //获取所有路由标识
-        $routes = RouteService::getRoutes();
+        $routes = RouteService::getMenuRoutes();
 
         return view('admin.menu.edit', ['roles' => $roles, 'error' => $error, 'role_ids' => $role_ids, 'menu' => $menu, 'top_menu' => $top_menu, 'routes' => $routes]);
     }
