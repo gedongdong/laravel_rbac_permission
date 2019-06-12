@@ -45,7 +45,7 @@ class MenuStoreValidate extends BaseValidate
         if ($pid < 0) {
             $this->validator->errors()->add('pid', '父级菜单参数不正确');
             return false;
-        } elseif ($pid = 1) {
+        } elseif ($pid == 1) {
             $this->validator->errors()->add('pid', '不能在该菜单中添加子菜单');
             return false;
         } elseif ($pid > 1) {
