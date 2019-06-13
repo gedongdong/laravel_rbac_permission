@@ -11,7 +11,11 @@
                        autocomplete="off" class="layui-input"
                        @if($menu)
                        value="{{ $menu->name }}"
-                        @endif >
+                       @endif
+                       @if($menu && ($menu->id==1 || $menu->pid==1))
+                       disabled
+                        @endif
+                >
                 @if($menu)
                     <input type="hidden" name="id" value="{{ $menu->id }}">
                 @endif
@@ -20,7 +24,11 @@
         <div class="layui-form-item" style="width: 500px;">
             <label class="layui-form-label">父级菜单</label>
             <div class="layui-input-block">
-                <select name="pid" lay-verify="required" lay-filter="pid">
+                <select name="pid" lay-verify="required" lay-filter="pid"
+                        @if($menu && ($menu->id==1 || $menu->pid==1))
+                        disabled
+                        @endif
+                >
                     <option value="0">顶级菜单</option>
                     @foreach($top_menu as $m)
                         @if($m->id != 1)
@@ -41,7 +49,11 @@
                 ">
             <label class="layui-form-label">菜单路由</label>
             <div class="layui-input-inline">
-                <select name="route">
+                <select name="route"
+                        @if($menu && ($menu->id==1 || $menu->pid==1))
+                        disabled
+                        @endif
+                >
                     <option value="">请选择菜单路由</option>
                     @foreach($routes as $route)
                         <option value="{{ $route}}"

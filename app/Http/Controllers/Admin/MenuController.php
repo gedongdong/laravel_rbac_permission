@@ -135,10 +135,12 @@ class MenuController extends Controller
         try {
             $menu = Menu::find($params['id']);
 
-            $menu->name  = $params['name'];
-            $menu->pid   = $params['pid'];
-            $menu->route = $params['pid'] == 0 ? null : $params['route'];
-            $menu->save();
+            if ($menu->id != 1 && $menu->pid != 1) {
+                $menu->name  = $params['name'];
+                $menu->pid   = $params['pid'];
+                $menu->route = $params['pid'] == 0 ? null : $params['route'];
+                $menu->save();
+            }
 
             //删除旧的关联关系
             MenuRoles::where('menu_id', '=', $params['id'])->delete();
