@@ -51,9 +51,15 @@ class UserUpdateValidate extends BaseValidate
         $id            = $this->requestData['id'];
         $email         = $this->requestData['email'];
 
-        if ($administrator == Users::ADMIN_NO && !$roles) {
-            $this->validator->errors()->add('roles', '请选择所属角色');
-            return false;
+        if ($administrator == Users::ADMIN_NO) {
+            if (!$roles) {
+                $this->validator->errors()->add('roles', '请选择所属角色');
+                return false;
+            }
+            if (Users::where('id', '!=', $id)->where('administrator', Users::ADMIN_YES)->count() <= 0) {
+                $this->validator->errors()->add('roles', '至少有一个超级管理员');
+                return false;
+            }
         }
 
         if (!Users::find($id)) {
