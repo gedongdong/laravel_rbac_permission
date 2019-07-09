@@ -1,11 +1,15 @@
 <?php
-/**
- * User: gedongdong@
- * Date: 2019/5/5 下午7:58
+
+/*
+ * This file is part of the gedongdong/laravel_rbac_permission.
+ *
+ * (c) gedongdong <gedongdong2010@163.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
 
 namespace App\Http\Models;
-
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -22,10 +26,10 @@ class Menu extends Model
 
     public static function menuTree(&$all_meuns, &$tree)
     {
-        foreach($all_meuns as $key=>$menu){
-            if(isset($all_meuns[$menu['pid']])){
+        foreach ($all_meuns as $key => $menu) {
+            if (isset($all_meuns[$menu['pid']])) {
                 $all_meuns[$menu['pid']]['children'][] = &$all_meuns[$key];
-            }else{
+            } else {
                 $tree[] = &$all_meuns[$menu['id']];
             }
         }
