@@ -1,3 +1,5 @@
+![StyleCI build status](https://github.styleci.io/repos/191280720/shield) 
+
 # Laravel RBAC Permission Admin
 
 基于Laravel框架，前端采用Layui组件（基于Jquery），包含通用RBAC权限的后台管理系统。
