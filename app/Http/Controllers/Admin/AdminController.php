@@ -1,11 +1,15 @@
 <?php
-/**
- * User: gedongdong@
- * Date: 2019/5/5 下午9:20
+
+/*
+ * This file is part of the gedongdong/laravel_rbac_permission.
+ *
+ * (c) gedongdong <gedongdong2010@163.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
 
 namespace App\Http\Controllers\Admin;
-
 
 use App\Http\Controllers\Controller;
 use App\Http\Models\Users;
@@ -49,8 +53,10 @@ class AdminController extends Controller
         if ($user->save()) {
             //退出登录
             $request->session()->forget('user');
+
             return Response::response();
         }
+
         return Response::response(Response::SQL_ERROR);
     }
 }

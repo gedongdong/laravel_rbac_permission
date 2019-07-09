@@ -1,11 +1,15 @@
 <?php
-/**
- * User: gedongdong@
- * Date: 2019/5/5 下午5:24
+
+/*
+ * This file is part of the gedongdong/laravel_rbac_permission.
+ *
+ * (c) gedongdong <gedongdong2010@163.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
 
 namespace App\Http\Controllers\Admin;
-
 
 use App\Http\Controllers\Controller;
 use App\Http\Models\Users;
@@ -28,15 +32,15 @@ class LoginController extends Controller
     public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'email'    => 'required|email',
+            'email' => 'required|email',
             'password' => 'required',
-            'captcha'  => 'required|captcha',
+            'captcha' => 'required|captcha',
         ], [
-            'email.required'    => '请输入登录名',
-            'email.email'       => '邮箱格式有误',
+            'email.required' => '请输入登录名',
+            'email.email' => '邮箱格式有误',
             'password.required' => '请输入密码',
-            'captcha.required'  => '请输入验证码',
-            'captcha.captcha'   => '验证码有误'
+            'captcha.required' => '请输入验证码',
+            'captcha.captcha' => '验证码有误',
         ]);
 
         if ($validator->fails()) {
@@ -50,7 +54,7 @@ class LoginController extends Controller
             return Response::response(Response::BAD_REQUEST, '登录名或密码有误');
         }
 
-        if ($user->status == Users::STATUS_DISABLE) {
+        if (Users::STATUS_DISABLE == $user->status) {
             return Response::response(Response::BAD_REQUEST, '您的账户被禁用，请联系管理员');
         }
 

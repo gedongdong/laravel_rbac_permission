@@ -1,13 +1,15 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: gedongdong
- * Date: 2019/5/6
- * Time: 下午10:12
+
+/*
+ * This file is part of the gedongdong/laravel_rbac_permission.
+ *
+ * (c) gedongdong <gedongdong2010@163.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
 
 namespace App\Service;
-
 
 use App\Http\Models\Menu;
 
@@ -20,10 +22,11 @@ class RouteService
 
         $all_routes = app()->routes->getRoutes();
         foreach ($all_routes as $k => $value) {
-            if (key_exists('as', $value->action) && !ends_with($value->action['as'], '.white')) {
+            if (array_key_exists('as', $value->action) && !ends_with($value->action['as'], '.white')) {
                 $routes[] = $value->action['as'];
             }
         }
+
         return $routes;
     }
 
@@ -37,10 +40,11 @@ class RouteService
 
         $all_routes = app()->routes->getRoutes();
         foreach ($all_routes as $k => $value) {
-            if (key_exists('as', $value->action) && !ends_with($value->action['as'], '.white') && ends_with($value->action['as'], '.index') && !in_array($value->action['as'], $all_used_routes)) {
+            if (array_key_exists('as', $value->action) && !ends_with($value->action['as'], '.white') && ends_with($value->action['as'], '.index') && !in_array($value->action['as'], $all_used_routes)) {
                 $routes[] = $value->action['as'];
             }
         }
+
         return $routes;
     }
 }

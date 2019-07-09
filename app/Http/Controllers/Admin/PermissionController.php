@@ -1,11 +1,15 @@
 <?php
-/**
- * User: gedongdong@
- * Date: 2019/5/6 上午10:11
+
+/*
+ * This file is part of the gedongdong/laravel_rbac_permission.
+ *
+ * (c) gedongdong <gedongdong2010@163.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
 
 namespace App\Http\Controllers\Admin;
-
 
 use App\Http\Controllers\Controller;
 use App\Http\Models\Permission;
@@ -24,12 +28,14 @@ class PermissionController extends Controller
     public function index()
     {
         $permissions = Permission::paginate(config('page_size'));
+
         return view('admin.permission.index', ['permissions' => $permissions]);
     }
 
     public function create()
     {
         $routes = RouteService::getRoutes();
+
         return view('admin.permission.create', ['routes' => $routes]);
     }
 
@@ -45,12 +51,13 @@ class PermissionController extends Controller
 
         $permission = new Permission();
 
-        $permission->name   = $params['name'];
+        $permission->name = $params['name'];
         $permission->routes = implode(',', $params['route']);
 
         if (!$permission->save()) {
             return Response::response(Response::SQL_ERROR);
         }
+
         return Response::response();
     }
 
@@ -58,7 +65,7 @@ class PermissionController extends Controller
     {
         $permission_id = $request->get('permission_id');
 
-        $error      = '';
+        $error = '';
         $permission = null;
 
         if (!$permission_id) {
@@ -89,12 +96,13 @@ class PermissionController extends Controller
 
         $permission = Permission::find($params['id']);
 
-        $permission->name   = $params['name'];
+        $permission->name = $params['name'];
         $permission->routes = implode(',', $params['route']);
 
         if (!$permission->save()) {
             return Response::response(Response::SQL_ERROR);
         }
+
         return Response::response();
     }
 
@@ -106,14 +114,17 @@ class PermissionController extends Controller
         }
 
         DB::beginTransaction();
+
         try {
             Permission::where('id', $id)->delete();
             RolePermission::where('roles_id', $id)->delete();
             DB::commit();
+
             return Response::response();
         } catch (QueryException $e) {
             DB::rollBack();
             Log::error('删除权限组数据库异常', [$e->getMessage()]);
+
             return Response::response(Response::SQL_ERROR);
         }
     }
