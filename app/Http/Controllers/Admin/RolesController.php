@@ -1,11 +1,15 @@
 <?php
-/**
- * User: gedongdong@
- * Date: 2019/5/6 上午10:11
+
+/*
+ * This file is part of the gedongdong/laravel_rbac_permission.
+ *
+ * (c) gedongdong <gedongdong2010@163.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
 
 namespace App\Http\Controllers\Admin;
-
 
 use App\Http\Controllers\Controller;
 use App\Http\Models\MenuRoles;
@@ -25,12 +29,14 @@ class RolesController extends Controller
     public function index()
     {
         $roles = Roles::paginate(config('page_size'));
+
         return view('admin.roles.index', ['roles' => $roles]);
     }
 
     public function create()
     {
         $permissions = Permission::select('id', 'name')->get();
+
         return view('admin.roles.create', ['permissions' => $permissions]);
     }
 
@@ -45,6 +51,7 @@ class RolesController extends Controller
         $params = $validate->requestData;
 
         DB::beginTransaction();
+
         try {
             $roles = new Roles();
 
@@ -54,18 +61,20 @@ class RolesController extends Controller
             $pivot = [];
             foreach ($params['permission'] as $permission) {
                 $pivot[] = [
-                    'roles_id'      => $roles->id,
+                    'roles_id' => $roles->id,
                     'permission_id' => $permission,
-                    'created_at'    => date('Y-m-d H:i:s'),
-                    'updated_at'    => date('Y-m-d H:i:s')
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'updated_at' => date('Y-m-d H:i:s'),
                 ];
             }
             RolePermission::insert($pivot);
 
             DB::commit();
+
             return Response::response();
         } catch (QueryException $e) {
             DB::rollBack();
+
             return Response::response(Response::SQL_ERROR);
         }
     }
@@ -75,7 +84,7 @@ class RolesController extends Controller
         $role_id = $request->get('role_id');
 
         $error = '';
-        $role  = null;
+        $role = null;
 
         $permission_ids = [];
         if (!$role_id) {
@@ -107,6 +116,7 @@ class RolesController extends Controller
         $params = $validate->requestData;
 
         DB::beginTransaction();
+
         try {
             $roles = Roles::find($params['id']);
 
@@ -119,19 +129,21 @@ class RolesController extends Controller
             $pivot = [];
             foreach ($params['permission'] as $permission) {
                 $pivot[] = [
-                    'roles_id'      => $roles->id,
+                    'roles_id' => $roles->id,
                     'permission_id' => $permission,
-                    'created_at'    => date('Y-m-d H:i:s'),
-                    'updated_at'    => date('Y-m-d H:i:s')
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'updated_at' => date('Y-m-d H:i:s'),
                 ];
             }
             RolePermission::insert($pivot);
 
             DB::commit();
+
             return Response::response();
         } catch (QueryException $e) {
             DB::rollBack();
             Log::error('更新角色数据库异常', [$e->getMessage()]);
+
             return Response::response(Response::SQL_ERROR);
         }
     }
@@ -144,15 +156,18 @@ class RolesController extends Controller
         }
 
         DB::beginTransaction();
+
         try {
             Roles::where('id', $id)->delete();
             RolePermission::where('roles_id', $id)->delete();
             MenuRoles::where('roles_id', $id)->delete();
             DB::commit();
+
             return Response::response();
         } catch (QueryException $e) {
             DB::rollBack();
             Log::error('删除角色数据库异常', [$e->getMessage()]);
+
             return Response::response(Response::SQL_ERROR);
         }
     }

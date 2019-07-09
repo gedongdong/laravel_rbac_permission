@@ -1,7 +1,15 @@
 <?php
 
-return [
+/*
+ * This file is part of the gedongdong/laravel_rbac_permission.
+ *
+ * (c) gedongdong <gedongdong2010@163.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 
+return [
     /*
     |--------------------------------------------------------------------------
     | Default Database Connection Name
@@ -32,7 +40,6 @@ return [
     */
 
     'connections' => [
-
         'sqlite' => [
             'driver' => 'sqlite',
             'database' => env('DB_DATABASE', database_path('database.sqlite')),
@@ -77,7 +84,6 @@ return [
             'charset' => 'utf8',
             'prefix' => '',
         ],
-
     ],
 
     /*
@@ -105,7 +111,6 @@ return [
     */
 
     'redis' => [
-
         'client' => 'predis',
 
         'default' => [
@@ -114,7 +119,5 @@ return [
             'port' => env('REDIS_PORT', 6379),
             'database' => 0,
         ],
-
     ],
-
 ];
