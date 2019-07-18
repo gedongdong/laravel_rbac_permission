@@ -73,6 +73,12 @@ class UserUpdateValidate extends BaseValidate
 
             return false;
         }
+        
+        $user = session()->get('user');
+        if ($user['administrator'] == Users::ADMIN_YES && $administrator == Users::ADMIN_NO) {
+            $this->validator->errors()->add('roles', '您不能修改自己的超级管理员配置');
+            return false;
+        }
 
         if (Users::where('id', '!=', $id)->where('email', '=', $email)->count() > 0) {
             $this->validator->errors()->add('name', '邮箱已经存在');
