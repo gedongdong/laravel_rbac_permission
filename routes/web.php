@@ -14,10 +14,10 @@
 Route::namespace('Admin')->prefix('admin')->group(function () {
     Route::get('login', 'LoginController@index')->name('admin.login.white');
     Route::post('login', 'LoginController@login')->name('admin.login.post.white');
+    Route::post('logout', 'LoginController@logout')->name('admin.logout.white');
 
     Route::middleware(['login', 'menu'])->group(function () {
         Route::get('/', 'AdminController@index')->name('admin.index.white');
-        Route::post('logout', 'LoginController@logout')->name('admin.logout.white');
         Route::get('modify_pwd', 'AdminController@modifyPwd')->name('admin.modify_pwd.white');
         Route::post('new_pwd', 'AdminController@newPwd')->name('admin.new_pwd.white');
         Route::get('forbidden', function () {
