@@ -71,7 +71,7 @@
         });
 
         function del(id) {
-            layer.confirm('你确定要删除这个角色吗？', {
+            layer.confirm('你确定要删除这个权限吗？', {
                 title: '删除确认',
                 btn: ['确定', '取消'] //按钮
             }, function () {
