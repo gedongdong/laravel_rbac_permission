@@ -47,7 +47,7 @@ class MenuUpdateValidate extends BaseValidate
         $id = $this->requestData['id'];
         $name = $this->requestData['name'];
         $pid = $this->requestData['pid'];
-        $route = $this->requestData['route'];
+        $route = $this->requestData['route'] ?? '';
         $role = $this->requestData['role'] ?? '';
 
         if ($pid < 0) {
@@ -80,12 +80,16 @@ class MenuUpdateValidate extends BaseValidate
         }
 
         if (0 != $pid) {
+            if (!$route) {
+                $this->validator->errors()->add('route', '请选择菜单路由');
+                return false;
+            }
             $routes = RouteService::getMenuRoutes();
             if ($menu->route) {
                 array_push($routes, $menu->route);
             }
             if (!in_array($route, $routes)) {
-                $this->validator->errors()->add('route', '路由标识不存在');
+                $this->validator->errors()->add('route', '菜单路由不存在');
 
                 return false;
             }

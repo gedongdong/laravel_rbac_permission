@@ -35,7 +35,12 @@ class PermissionStoreValidate extends BaseValidate
 
     protected function customValidate()
     {
-        $route = $this->requestData['route'];
+        $route = $this->requestData['route'] ?? '';
+
+        if (!$route) {
+            $this->validator->errors()->add('route', '请选择路由');
+            return false;
+        }
 
         $all_routes = RouteService::getRoutes();
         if (count($route) != count(array_intersect($route, $all_routes))) {
