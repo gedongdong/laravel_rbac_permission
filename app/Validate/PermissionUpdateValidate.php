@@ -56,6 +56,7 @@ class PermissionUpdateValidate extends BaseValidate
         $route = $this->requestData['route'] ?? '';
         if (!$route) {
             $this->validator->errors()->add('route', '请选择路由');
+
             return false;
         }
 

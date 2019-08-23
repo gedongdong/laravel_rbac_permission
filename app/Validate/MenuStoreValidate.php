@@ -43,7 +43,7 @@ class MenuStoreValidate extends BaseValidate
     protected function customValidate()
     {
         $pid = $this->requestData['pid'];
-        $route = $this->requestData['route']??'';
+        $route = $this->requestData['route'] ?? '';
         $role = $this->requestData['role'] ?? '';
 
         if ($pid < 0) {
@@ -65,6 +65,7 @@ class MenuStoreValidate extends BaseValidate
         if (0 != $pid) {
             if (!$route) {
                 $this->validator->errors()->add('route', '请选择菜单路由');
+
                 return false;
             }
             $routes = RouteService::getMenuRoutes();
