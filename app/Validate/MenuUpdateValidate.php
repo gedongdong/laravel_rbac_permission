@@ -82,6 +82,7 @@ class MenuUpdateValidate extends BaseValidate
         if (0 != $pid) {
             if (!$route) {
                 $this->validator->errors()->add('route', '请选择菜单路由');
+
                 return false;
             }
             $routes = RouteService::getMenuRoutes();
