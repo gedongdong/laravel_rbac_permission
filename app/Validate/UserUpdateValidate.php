@@ -75,8 +75,8 @@ class UserUpdateValidate extends BaseValidate
         }
 
         $user = session()->get('user');
-        if (Users::ADMIN_YES == $user['administrator'] && Users::ADMIN_NO == $administrator) {
-            $this->validator->errors()->add('roles', '您不能修改自己的超级管理员配置');
+        if ($user['id'] == $id && Users::ADMIN_YES == $user['administrator'] && Users::ADMIN_NO == $administrator) {
+            $this->validator->errors()->add('roles', '你不能修改自己的超级管理员配置');
 
             return false;
         }

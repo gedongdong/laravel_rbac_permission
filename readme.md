@@ -1,5 +1,3 @@
-![StyleCI build status](https://github.styleci.io/repos/191280720/shield) 
-
 # Laravel RBAC Permission Admin
 
 基于Laravel框架，前端采用Layui组件（基于Jquery），包含通用RBAC权限的后台管理系统。
@@ -13,7 +11,7 @@ password：admin123
 ## 环境要求
 
 * PHP >= 7.0
-* Laravel  5.5.* / 5.8.*（理论上支持5.5以上所有版本，5.5和5.8测试通过）
+* Laravel  5.5.* / 5.8.* / 6.0.1（理论上支持5.5以上所有版本，5.5、5.8、6.0测试通过）
 
 ## 基础功能
 
