@@ -15,7 +15,7 @@
         <ul class="layui-nav layui-layout-left">
             <li class="layui-nav-item"><a href="{{ route('admin.index.white') }}">控制台</a></li>
             <li class="layui-nav-item"><a href="https://github.com/gedongdong/laravel_rbac_permission">Github</a></li>
-            <li class="layui-nav-item"><a href="">用户</a></li>
+            <li class="layui-nav-item"><a href="">网站首页</a></li>
             <li class="layui-nav-item">
                 <a href="javascript:;">其它系统</a>
                 <dl class="layui-nav-child">
