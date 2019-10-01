@@ -28,16 +28,16 @@ class MenuController extends Controller
 {
     public function index()
     {
-        $menu = Menu::with('roles')->select('id', 'name as title', 'pid', 'route', 'created_at')->get()->toArray();
+        $menu     = Menu::with('roles')->select('id', 'name as title', 'pid', 'route', 'created_at')->get()->toArray();
         $menu_arr = [];
         foreach ($menu as $m) {
             $menu_arr[] = [
-                'id' => $m['id'],
-                'title' => $m['title'],
-                'pid' => $m['pid'],
-                'route' => $m['route'],
+                'id'         => $m['id'],
+                'title'      => $m['title'],
+                'pid'        => $m['pid'],
+                'route'      => $m['route'],
                 'created_at' => $m['created_at'],
-                'roles' => array_column($m['roles'], 'name'),
+                'roles'      => array_column($m['roles'], 'name'),
             ];
         }
 
@@ -47,8 +47,8 @@ class MenuController extends Controller
     public function create()
     {
         $top_menu = Menu::with('roles')->where('pid', '=', 0)->select('id', 'name')->get();
-        $routes = RouteService::getMenuRoutes();
-        $roles = Roles::all();
+        $routes   = RouteService::getMenuRoutes();
+        $roles    = Roles::all();
 
         return view('admin.menu.create', ['top_menu' => $top_menu, 'routes' => $routes, 'roles' => $roles]);
     }
@@ -58,7 +58,7 @@ class MenuController extends Controller
         $validate = new MenuStoreValidate($request);
 
         if (!$validate->goCheck()) {
-            return Response::response(Response::PARAM_ERROR, $validate->errors->first());
+            return Response::response(['code' => Response::PARAM_ERROR, 'msg' => $validate->errors->first()]);
         }
 
         $params = $validate->requestData;
@@ -68,16 +68,16 @@ class MenuController extends Controller
         try {
             $menu = new Menu();
 
-            $menu->name = $params['name'];
-            $menu->pid = $params['pid'];
+            $menu->name  = $params['name'];
+            $menu->pid   = $params['pid'];
             $menu->route = 0 == $params['pid'] ? null : $params['route'];
             $menu->save();
 
             $pivot = [];
             foreach ($params['role'] as $role) {
                 $pivot[] = [
-                    'menu_id' => $menu->id,
-                    'roles_id' => $role,
+                    'menu_id'    => $menu->id,
+                    'roles_id'   => $role,
                     'created_at' => date('Y-m-d H:i:s'),
                     'updated_at' => date('Y-m-d H:i:s'),
                 ];
@@ -91,7 +91,7 @@ class MenuController extends Controller
             DB::rollBack();
             Log::error('角色创建数据库异常', [$e->getMessage()]);
 
-            return Response::response(Response::SQL_ERROR);
+            return Response::response(['code' => Response::SQL_ERROR, 'e' => $e]);
         }
     }
 
@@ -100,7 +100,7 @@ class MenuController extends Controller
         $menu_id = $request->get('menu_id');
 
         $error = '';
-        $menu = null;
+        $menu  = null;
 
         $role_ids = [];
         if (!$menu_id) {
@@ -135,7 +135,7 @@ class MenuController extends Controller
         $validate = new MenuUpdateValidate($request);
 
         if (!$validate->goCheck()) {
-            return Response::response(Response::PARAM_ERROR, $validate->errors->first());
+            return Response::response(['code' => Response::PARAM_ERROR, 'msg' => $validate->errors->first()]);
         }
 
         $params = $validate->requestData;
@@ -146,8 +146,8 @@ class MenuController extends Controller
             $menu = Menu::find($params['id']);
 
             if (1 != $menu->id && 1 != $menu->pid) {
-                $menu->name = $params['name'];
-                $menu->pid = $params['pid'];
+                $menu->name  = $params['name'];
+                $menu->pid   = $params['pid'];
                 $menu->route = 0 == $params['pid'] ? null : $params['route'];
                 $menu->save();
             }
@@ -158,8 +158,8 @@ class MenuController extends Controller
             $pivot = [];
             foreach ($params['role'] as $role) {
                 $pivot[] = [
-                    'menu_id' => $menu->id,
-                    'roles_id' => $role,
+                    'menu_id'    => $menu->id,
+                    'roles_id'   => $role,
                     'created_at' => date('Y-m-d H:i:s'),
                     'updated_at' => date('Y-m-d H:i:s'),
                 ];
@@ -173,7 +173,7 @@ class MenuController extends Controller
             DB::rollBack();
             Log::error('菜单更新数据库异常', [$e->getMessage()]);
 
-            return Response::response(Response::SQL_ERROR);
+            return Response::response(['code' => Response::SQL_ERROR, 'e' => $e]);
         }
     }
 
@@ -181,22 +181,22 @@ class MenuController extends Controller
     {
         $id = $request->get('id');
         if (!$id) {
-            return Response::response(Response::PARAM_ERROR);
+            return Response::response(['code' => Response::PARAM_ERROR]);
         }
 
         //初始化的菜单及子菜单不能被删除
         if (1 == $id) {
-            return Response::response(Response::BAD_REQUEST, '当前菜单不能被删除');
+            return Response::response(['code' => Response::BAD_REQUEST, 'msg' => '当前菜单不能被删除']);
         }
 
         $menu = Menu::find($id);
         if (!$menu || 1 == $menu->pid) {
-            return Response::response(Response::BAD_REQUEST, '当前菜单不能被删除');
+            return Response::response(['code' => Response::BAD_REQUEST, 'msg' => '当前菜单不能被删除']);
         }
 
         $sub_count = Menu::where('pid', $id)->count();
         if ($sub_count > 0) {
-            return Response::response(Response::BAD_REQUEST, '请先删除子菜单');
+            return Response::response(['code' => Response::BAD_REQUEST, 'msg' => '请先删除子菜单']);
         }
 
         DB::beginTransaction();
@@ -211,7 +211,7 @@ class MenuController extends Controller
             DB::rollBack();
             Log::error('删除菜单数据库异常', [$e->getMessage()]);
 
-            return Response::response(Response::SQL_ERROR);
+            return Response::response(['code' => Response::SQL_ERROR, 'e' => $e]);
         }
     }
 }

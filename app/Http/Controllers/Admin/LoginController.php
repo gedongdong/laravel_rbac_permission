@@ -32,30 +32,30 @@ class LoginController extends Controller
     public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'email' => 'required|email',
+            'email'    => 'required|email',
             'password' => 'required',
-            'captcha' => 'required|captcha',
+            'captcha'  => 'required|captcha',
         ], [
-            'email.required' => '请输入登录名',
-            'email.email' => '邮箱格式有误',
+            'email.required'    => '请输入登录名',
+            'email.email'       => '邮箱格式有误',
             'password.required' => '请输入密码',
-            'captcha.required' => '请输入验证码',
-            'captcha.captcha' => '验证码有误',
+            'captcha.required'  => '请输入验证码',
+            'captcha.captcha'   => '验证码有误',
         ]);
 
         if ($validator->fails()) {
-            return Response::response(Response::PARAM_ERROR, $validator->errors()->first());
+            return Response::response(['code' => Response::PARAM_ERROR, 'msg' => $validator->errors()->first()]);
         }
 
         $data = $validator->getData();
 
         $user = Users::where('email', '=', $data['email'])->first();
         if (!$user || !Hash::check($data['password'], $user->password)) {
-            return Response::response(Response::BAD_REQUEST, '登录名或密码有误');
+            return Response::response(['code' => Response::BAD_REQUEST, 'msg' => '登录名或密码有误']);
         }
 
         if (Users::STATUS_DISABLE == $user->status) {
-            return Response::response(Response::BAD_REQUEST, '您的账户被禁用，请联系管理员');
+            return Response::response(['code' => Response::BAD_REQUEST, 'msg' => '您的账户被禁用，请联系管理员']);
         }
 
         session(['user' => $user]);

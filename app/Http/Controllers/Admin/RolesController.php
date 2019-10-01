@@ -45,7 +45,7 @@ class RolesController extends Controller
         $validate = new RolesStoreValidate($request);
 
         if (!$validate->goCheck()) {
-            return Response::response(Response::PARAM_ERROR, $validate->errors->first());
+            return Response::response(['code' => Response::PARAM_ERROR, 'msg' => $validate->errors->first()]);
         }
 
         $params = $validate->requestData;
@@ -61,10 +61,10 @@ class RolesController extends Controller
             $pivot = [];
             foreach ($params['permission'] as $permission) {
                 $pivot[] = [
-                    'roles_id' => $roles->id,
+                    'roles_id'      => $roles->id,
                     'permission_id' => $permission,
-                    'created_at' => date('Y-m-d H:i:s'),
-                    'updated_at' => date('Y-m-d H:i:s'),
+                    'created_at'    => date('Y-m-d H:i:s'),
+                    'updated_at'    => date('Y-m-d H:i:s'),
                 ];
             }
             RolePermission::insert($pivot);
@@ -75,7 +75,7 @@ class RolesController extends Controller
         } catch (QueryException $e) {
             DB::rollBack();
 
-            return Response::response(Response::SQL_ERROR);
+            return Response::response(['code' => Response::SQL_ERROR]);
         }
     }
 
@@ -84,7 +84,7 @@ class RolesController extends Controller
         $role_id = $request->get('role_id');
 
         $error = '';
-        $role = null;
+        $role  = null;
 
         $permission_ids = [];
         if (!$role_id) {
@@ -110,7 +110,7 @@ class RolesController extends Controller
         $validate = new RolesUpdateValidate($request);
 
         if (!$validate->goCheck()) {
-            return Response::response(Response::PARAM_ERROR, $validate->errors->first());
+            return Response::response(['code' => Response::PARAM_ERROR, 'msg' => $validate->errors->first()]);
         }
 
         $params = $validate->requestData;
@@ -129,10 +129,10 @@ class RolesController extends Controller
             $pivot = [];
             foreach ($params['permission'] as $permission) {
                 $pivot[] = [
-                    'roles_id' => $roles->id,
+                    'roles_id'      => $roles->id,
                     'permission_id' => $permission,
-                    'created_at' => date('Y-m-d H:i:s'),
-                    'updated_at' => date('Y-m-d H:i:s'),
+                    'created_at'    => date('Y-m-d H:i:s'),
+                    'updated_at'    => date('Y-m-d H:i:s'),
                 ];
             }
             RolePermission::insert($pivot);
@@ -144,7 +144,7 @@ class RolesController extends Controller
             DB::rollBack();
             Log::error('更新角色数据库异常', [$e->getMessage()]);
 
-            return Response::response(Response::SQL_ERROR);
+            return Response::response(['code' => Response::SQL_ERROR, 'e' => $e]);
         }
     }
 
@@ -152,7 +152,7 @@ class RolesController extends Controller
     {
         $id = $request->get('id');
         if (!$id) {
-            return Response::response(Response::PARAM_ERROR);
+            return Response::response(['code' => Response::PARAM_ERROR]);
         }
 
         DB::beginTransaction();
@@ -168,7 +168,7 @@ class RolesController extends Controller
             DB::rollBack();
             Log::error('删除角色数据库异常', [$e->getMessage()]);
 
-            return Response::response(Response::SQL_ERROR);
+            return Response::response(['code' => Response::PARAM_ERROR, 'e' => $e]);
         }
     }
 }

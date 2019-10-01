@@ -44,18 +44,18 @@ class PermissionController extends Controller
         $validate = new PermissionStoreValidate($request);
 
         if (!$validate->goCheck()) {
-            return Response::response(Response::PARAM_ERROR, $validate->errors->first());
+            return Response::response(['code' => Response::PARAM_ERROR, 'msg' => $validate->errors->first()]);
         }
 
         $params = $validate->requestData;
 
         $permission = new Permission();
 
-        $permission->name = $params['name'];
+        $permission->name   = $params['name'];
         $permission->routes = implode(',', $params['route']);
 
         if (!$permission->save()) {
-            return Response::response(Response::SQL_ERROR);
+            return Response::response(['code' => Response::SQL_ERROR]);
         }
 
         return Response::response();
@@ -65,7 +65,7 @@ class PermissionController extends Controller
     {
         $permission_id = $request->get('permission_id');
 
-        $error = '';
+        $error      = '';
         $permission = null;
 
         if (!$permission_id) {
@@ -89,18 +89,18 @@ class PermissionController extends Controller
         $validate = new PermissionUpdateValidate($request);
 
         if (!$validate->goCheck()) {
-            return Response::response(Response::PARAM_ERROR, $validate->errors->first());
+            return Response::response(['code' => Response::PARAM_ERROR, 'msg' => $validate->errors->first()]);
         }
 
         $params = $validate->requestData;
 
         $permission = Permission::find($params['id']);
 
-        $permission->name = $params['name'];
+        $permission->name   = $params['name'];
         $permission->routes = implode(',', $params['route']);
 
         if (!$permission->save()) {
-            return Response::response(Response::SQL_ERROR);
+            return Response::response(['code' => Response::SQL_ERROR]);
         }
 
         return Response::response();
@@ -110,7 +110,7 @@ class PermissionController extends Controller
     {
         $id = $request->get('id');
         if (!$id) {
-            return Response::response(Response::PARAM_ERROR);
+            return Response::response(['code' => Response::PARAM_ERROR]);
         }
 
         DB::beginTransaction();
@@ -125,7 +125,7 @@ class PermissionController extends Controller
             DB::rollBack();
             Log::error('删除权限组数据库异常', [$e->getMessage()]);
 
-            return Response::response(Response::SQL_ERROR);
+            return Response::response(['code' => Response::SQL_ERROR, 'e' => $e]);
         }
     }
 }

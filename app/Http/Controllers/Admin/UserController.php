@@ -43,7 +43,7 @@ class UserController extends Controller
     {
         $validate = new UserStoreValidate($request);
         if (!$validate->goCheck()) {
-            return Response::response(Response::PARAM_ERROR, $validate->errors->first());
+            return Response::response(['code' => Response::PARAM_ERROR, 'msg' => $validate->errors->first()]);
         }
 
         $params = $validate->requestData;
@@ -53,12 +53,12 @@ class UserController extends Controller
         try {
             $user = new Users();
 
-            $user->name = $params['name'];
-            $user->email = $params['email'];
-            $user->password = Hash::make($params['password']);
-            $user->status = $params['status'];
+            $user->name          = $params['name'];
+            $user->email         = $params['email'];
+            $user->password      = Hash::make($params['password']);
+            $user->status        = $params['status'];
             $user->administrator = $params['administrator'];
-            $user->creator_id = session('user')['id'];
+            $user->creator_id    = session('user')['id'];
             $user->save();
 
             $roles = $params['roles'] ?? '';
@@ -66,8 +66,8 @@ class UserController extends Controller
                 $pivot = [];
                 foreach ($params['roles'] as $role) {
                     $pivot[] = [
-                        'users_id' => $user->id,
-                        'roles_id' => $role,
+                        'users_id'   => $user->id,
+                        'roles_id'   => $role,
                         'created_at' => date('Y-m-d H:i:s'),
                         'updated_at' => date('Y-m-d H:i:s'),
                     ];
@@ -81,7 +81,7 @@ class UserController extends Controller
         } catch (QueryException $e) {
             DB::rollBack();
 
-            return Response::response(Response::SQL_ERROR);
+            return Response::response(['code' => Response::SQL_ERROR]);
         }
     }
 
@@ -89,8 +89,8 @@ class UserController extends Controller
     {
         $user_id = $request->get('user_id');
 
-        $error = '';
-        $user = null;
+        $error    = '';
+        $user     = null;
         $role_ids = [];
         if (!$user_id) {
             $error = '参数有误';
@@ -112,7 +112,7 @@ class UserController extends Controller
     {
         $validate = new UserUpdateValidate($request);
         if (!$validate->goCheck()) {
-            return Response::response(Response::PARAM_ERROR, $validate->errors->first());
+            return Response::response(['code' => Response::PARAM_ERROR, 'msg' => $validate->errors->first()]);
         }
 
         $params = $validate->requestData;
@@ -122,7 +122,7 @@ class UserController extends Controller
         try {
             $user = Users::find($params['id']);
 
-            $user->name = $params['name'];
+            $user->name  = $params['name'];
             $user->email = $params['email'];
             //$user->status        = $params['status'];
             $user->administrator = $params['administrator'];
@@ -141,8 +141,8 @@ class UserController extends Controller
                 $pivot = [];
                 foreach ($params['roles'] as $role) {
                     $pivot[] = [
-                        'users_id' => $user->id,
-                        'roles_id' => $role,
+                        'users_id'   => $user->id,
+                        'roles_id'   => $role,
                         'created_at' => date('Y-m-d H:i:s'),
                         'updated_at' => date('Y-m-d H:i:s'),
                     ];
@@ -156,7 +156,7 @@ class UserController extends Controller
         } catch (QueryException $e) {
             DB::rollBack();
 
-            return Response::response(Response::SQL_ERROR);
+            return Response::response(['code' => Response::SQL_ERROR, 'e' => $e]);
         }
     }
 
@@ -171,29 +171,29 @@ class UserController extends Controller
     {
         $user_id = $request->get('user_id');
         if (!$user_id) {
-            return Response::response(Response::PARAM_ERROR);
+            return Response::response(['code' => Response::PARAM_ERROR]);
         }
 
         if ($user_id == session('user')['id']) {
-            return Response::response(Response::BAD_REQUEST, '你不能修改自己的状态');
+            return Response::response(['code' => Response::PARAM_ERROR, 'msg' => '你不能修改自己的状态']);
         }
 
         $user = Users::find($user_id);
         if (!$user) {
-            return Response::response(Response::BAD_REQUEST);
+            return Response::response(['code' => Response::BAD_REQUEST]);
         }
 
         if (Users::ADMIN_YES == $user->administrator && Users::STATUS_ENABLE == $user->status) {
             //除了当前管理员，至少有一个启用状态的管理员
             if (Users::where('id', '!=', $user_id)->where('administrator', '=', Users::ADMIN_YES)->where('status', '=', Users::STATUS_ENABLE)->count() <= 0) {
-                return Response::response(Response::BAD_REQUEST, '至少有一个管理员');
+                return Response::response(['code' => Response::BAD_REQUEST, 'msg' => '至少有一个管理员']);
             }
         }
 
         $user->status = Users::STATUS_ENABLE == $user->status ? Users::STATUS_DISABLE : Users::STATUS_ENABLE;
 
         if (!$user->save()) {
-            return Response::response(Response::SQL_ERROR);
+            return Response::response(['code' => Response::SQL_ERROR]);
         }
 
         return Response::response();
@@ -203,22 +203,22 @@ class UserController extends Controller
     {
         $user_id = $request->get('id');
         if (!$user_id) {
-            return Response::response(Response::PARAM_ERROR);
+            return Response::response(['code' => Response::PARAM_ERROR]);
         }
 
         $user = Users::find($user_id);
         if (!$user || Users::STATUS_ENABLE != $user->status) {
             //启用的用户才可以重置密码
-            return Response::response(Response::BAD_REQUEST);
+            return Response::response(['code' => Response::BAD_REQUEST]);
         }
 
         //统一重置密码为admin123
         $user->password = Hash::make('admin123');
 
         if (!$user->save()) {
-            return Response::response(Response::SQL_ERROR);
+            return Response::response(['code' => Response::SQL_ERROR]);
         }
 
-        return Response::response(Response::OK, '密码已成功重置为：admin123');
+        return Response::response(['code' => Response::OK, 'msg' => '密码已成功重置为：admin123']);
     }
 }
