@@ -53,12 +53,12 @@ class UserController extends Controller
         try {
             $user = new Users();
 
-            $user->name          = $params['name'];
-            $user->email         = $params['email'];
-            $user->password      = Hash::make($params['password']);
-            $user->status        = $params['status'];
+            $user->name = $params['name'];
+            $user->email = $params['email'];
+            $user->password = Hash::make($params['password']);
+            $user->status = $params['status'];
             $user->administrator = $params['administrator'];
-            $user->creator_id    = session('user')['id'];
+            $user->creator_id = session('user')['id'];
             $user->save();
 
             $roles = $params['roles'] ?? '';
@@ -66,8 +66,8 @@ class UserController extends Controller
                 $pivot = [];
                 foreach ($params['roles'] as $role) {
                     $pivot[] = [
-                        'users_id'   => $user->id,
-                        'roles_id'   => $role,
+                        'users_id' => $user->id,
+                        'roles_id' => $role,
                         'created_at' => date('Y-m-d H:i:s'),
                         'updated_at' => date('Y-m-d H:i:s'),
                     ];
@@ -89,8 +89,8 @@ class UserController extends Controller
     {
         $user_id = $request->get('user_id');
 
-        $error    = '';
-        $user     = null;
+        $error = '';
+        $user = null;
         $role_ids = [];
         if (!$user_id) {
             $error = '参数有误';
@@ -122,7 +122,7 @@ class UserController extends Controller
         try {
             $user = Users::find($params['id']);
 
-            $user->name  = $params['name'];
+            $user->name = $params['name'];
             $user->email = $params['email'];
             //$user->status        = $params['status'];
             $user->administrator = $params['administrator'];
@@ -141,8 +141,8 @@ class UserController extends Controller
                 $pivot = [];
                 foreach ($params['roles'] as $role) {
                     $pivot[] = [
-                        'users_id'   => $user->id,
-                        'roles_id'   => $role,
+                        'users_id' => $user->id,
+                        'roles_id' => $role,
                         'created_at' => date('Y-m-d H:i:s'),
                         'updated_at' => date('Y-m-d H:i:s'),
                     ];
