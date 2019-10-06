@@ -6,7 +6,7 @@
 @endsection
 
 @section('script')
-    <script src="/js/layui/ext/treeTable.js"></script>
+    <script src="/js/ext/treeTable.js"></script>
     <script>
         layui.use(['layer', 'form'], function () {
             var layer = layui.layer;
