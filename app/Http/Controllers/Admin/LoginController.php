@@ -32,15 +32,15 @@ class LoginController extends Controller
     public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'email'    => 'required|email',
+            'email' => 'required|email',
             'password' => 'required',
-            'captcha'  => 'required|captcha',
+            'captcha' => 'required|captcha',
         ], [
-            'email.required'    => '请输入登录名',
-            'email.email'       => '邮箱格式有误',
+            'email.required' => '请输入登录名',
+            'email.email' => '邮箱格式有误',
             'password.required' => '请输入密码',
-            'captcha.required'  => '请输入验证码',
-            'captcha.captcha'   => '验证码有误',
+            'captcha.required' => '请输入验证码',
+            'captcha.captcha' => '验证码有误',
         ]);
 
         if ($validator->fails()) {
