@@ -51,7 +51,7 @@ class PermissionController extends Controller
 
         $permission = new Permission();
 
-        $permission->name   = $params['name'];
+        $permission->name = $params['name'];
         $permission->routes = implode(',', $params['route']);
 
         if (!$permission->save()) {
@@ -65,7 +65,7 @@ class PermissionController extends Controller
     {
         $permission_id = $request->get('permission_id');
 
-        $error      = '';
+        $error = '';
         $permission = null;
 
         if (!$permission_id) {
@@ -96,7 +96,7 @@ class PermissionController extends Controller
 
         $permission = Permission::find($params['id']);
 
-        $permission->name   = $params['name'];
+        $permission->name = $params['name'];
         $permission->routes = implode(',', $params['route']);
 
         if (!$permission->save()) {
