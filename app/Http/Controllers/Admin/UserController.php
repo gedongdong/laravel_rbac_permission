@@ -212,6 +212,11 @@ class UserController extends Controller
             return Response::response(['code' => Response::BAD_REQUEST]);
         }
 
+        if ($user_id == 1) {
+            //启用的用户才可以重置密码
+            return Response::response(['code' => Response::BAD_REQUEST, 'msg' => '公共测试环境暂不允许修改超管密码~']);
+        }
+
         //统一重置密码为admin123
         $user->password = Hash::make('admin123');
 
