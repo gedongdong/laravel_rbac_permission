@@ -213,7 +213,7 @@ class UserController extends Controller
         }
 
         if ($user_id == 1) {
-            //启用的用户才可以重置密码
+            //公共测试环境暂不允许修改超管密码~
             return Response::response(['code' => Response::BAD_REQUEST, 'msg' => '公共测试环境暂不允许修改超管密码~']);
         }
 

@@ -45,6 +45,11 @@ class AdminController extends Controller
             return Response::response(['code' => Response::BAD_REQUEST]);
         }
 
+        if ($user->id == 1) {
+            //公共测试环境暂不允许修改超管密码~
+            return Response::response(['code' => Response::BAD_REQUEST, 'msg' => '公共测试环境暂不允许修改超管密码~']);
+        }
+
         if (!Hash::check($params['oldPassword'], $user->password)) {
             return Response::response(['code' => Response::BAD_REQUEST, 'msg' => '请输入正确的当前密码']);
         }
