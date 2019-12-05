@@ -26,9 +26,9 @@ class Response
     const SERVER_ERROR = 5000;
 
     public static $errMsg = [
-        self::BAD_REQUEST  => '请求错误',
-        self::PARAM_ERROR  => '参数错误',
-        self::SQL_ERROR    => '数据库执行错误',
+        self::BAD_REQUEST => '请求错误',
+        self::PARAM_ERROR => '参数错误',
+        self::SQL_ERROR => '数据库执行错误',
         self::SERVER_ERROR => '服务器错误',
     ];
 
@@ -37,10 +37,10 @@ class Response
         $data = $params['data'] ?? [];
         if (env('APP_DEBUG') && array_key_exists('e', $params) && $params['e'] instanceof \Exception) {
             $code = $params['e']->getCode();
-            $msg  = $params['e']->getMessage();
+            $msg = $params['e']->getMessage();
         } else {
             $code = $params['code'] ?? 0;
-            $msg  = $params['msg'] ?? (array_key_exists($code, self::$errMsg) ? self::$errMsg[$code] : '未知错误');
+            $msg = $params['msg'] ?? (array_key_exists($code, self::$errMsg) ? self::$errMsg[$code] : '未知错误');
         }
 
         return response(['code' => $code, 'msg' => $msg, 'data' => $data]);

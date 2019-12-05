@@ -61,10 +61,10 @@ class RolesController extends Controller
             $pivot = [];
             foreach ($params['permission'] as $permission) {
                 $pivot[] = [
-                    'roles_id'      => $roles->id,
+                    'roles_id' => $roles->id,
                     'permission_id' => $permission,
-                    'created_at'    => date('Y-m-d H:i:s'),
-                    'updated_at'    => date('Y-m-d H:i:s'),
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'updated_at' => date('Y-m-d H:i:s'),
                 ];
             }
             RolePermission::insert($pivot);
@@ -84,7 +84,7 @@ class RolesController extends Controller
         $role_id = $request->get('role_id');
 
         $error = '';
-        $role  = null;
+        $role = null;
 
         $permission_ids = [];
         if (!$role_id) {
@@ -129,10 +129,10 @@ class RolesController extends Controller
             $pivot = [];
             foreach ($params['permission'] as $permission) {
                 $pivot[] = [
-                    'roles_id'      => $roles->id,
+                    'roles_id' => $roles->id,
                     'permission_id' => $permission,
-                    'created_at'    => date('Y-m-d H:i:s'),
-                    'updated_at'    => date('Y-m-d H:i:s'),
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'updated_at' => date('Y-m-d H:i:s'),
                 ];
             }
             RolePermission::insert($pivot);
