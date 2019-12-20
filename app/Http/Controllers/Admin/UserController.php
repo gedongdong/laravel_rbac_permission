@@ -122,6 +122,11 @@ class UserController extends Controller
         try {
             $user = Users::find($params['id']);
 
+            if (1 == $params['id']) {
+                //公共测试环境暂不允许修改该用户~
+                return Response::response(['code' => Response::BAD_REQUEST, 'msg' => '公共测试环境暂不允许修改该用户~']);
+            }
+
             $user->name = $params['name'];
             $user->email = $params['email'];
             //$user->status        = $params['status'];
@@ -176,6 +181,11 @@ class UserController extends Controller
 
         if ($user_id == session('user')['id']) {
             return Response::response(['code' => Response::PARAM_ERROR, 'msg' => '你不能修改自己的状态']);
+        }
+
+        if (1 == $user_id) {
+            //公共测试环境暂不允许修改该用户状态~
+            return Response::response(['code' => Response::BAD_REQUEST, 'msg' => '公共测试环境暂不允许修改该用户状态~']);
         }
 
         $user = Users::find($user_id);
