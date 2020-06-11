@@ -10,8 +10,8 @@
     "require": {
         "php": ">=7.0.0",
         "fideloper/proxy": "~4.0",
-        "laravel/framework": "^6.0.0",
-        "laravel/tinker": "~1.0",
+        "laravel/framework": "^7.0",
+        "laravel/tinker": "^2.0",
         "mews/captcha": "^3.0"
     },
     "require-dev": {
