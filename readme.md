@@ -11,7 +11,8 @@ password：admin123
 ## 环境要求
 
 * PHP >= 7.0
-* Laravel  5.5.* / 5.8.* / 6.0.1（理论上支持5.5以上所有版本，5.5、5.8、6.0测试通过）
+* Laravel  5.5.* / 5.8.* / 6.x（理论上支持5.5以上及6.x所有版本，5.5、5.8、6.0测试通过）
+* Laravel 7.x 支持：https://github.com/gedongdong/laravel_rbac_permission/tree/laravel-7.x
 
 ## 基础功能
 
