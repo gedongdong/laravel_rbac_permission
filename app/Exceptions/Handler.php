@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the gedongdong/laravel_rbac_permission.
+ *
+ * (c) gedongdong <gedongdong2010@163.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
@@ -13,7 +22,6 @@ class Handler extends ExceptionHandler
      * @var array
      */
     protected $dontReport = [
-        //
     ];
 
     /**
@@ -29,8 +37,7 @@ class Handler extends ExceptionHandler
     /**
      * Report or log an exception.
      *
-     * @param  \Throwable  $exception
-     * @return void
+     * @param \Throwable $exception
      *
      * @throws \Exception
      */
@@ -42,8 +49,9 @@ class Handler extends ExceptionHandler
     /**
      * Render an exception into an HTTP response.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Throwable  $exception
+     * @param \Illuminate\Http\Request $request
+     * @param \Throwable               $exception
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      *
      * @throws \Throwable
