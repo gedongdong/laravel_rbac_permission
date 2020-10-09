@@ -61,7 +61,7 @@
         @endforeach
         </tbody>
     </table>
-    <div id="page" class="layui-box layui-laypage layui-laypage-default">{{ $roles->links() }}</div>
+    <div id="page" class="layui-box layui-laypage layui-laypage-default">{{ $roles->links('vendor.pagination.bootstrap-4') }}</div>
 @endsection
 
 @section('script')

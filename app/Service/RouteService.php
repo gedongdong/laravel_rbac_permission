@@ -20,7 +20,7 @@ class RouteService
     {
         $routes = [];
 
-        $all_routes = app()->routes->getRoutes();
+        $all_routes = app('router')->getRoutes();
         foreach ($all_routes as $k => $value) {
             if (array_key_exists('as', $value->action) && !ends_with($value->action['as'], '.white')) {
                 $routes[] = $value->action['as'];
@@ -38,7 +38,7 @@ class RouteService
         //使用过的路由不能再添加
         $all_used_routes = Menu::whereNotNull('route')->pluck('route')->toArray();
 
-        $all_routes = app()->routes->getRoutes();
+        $all_routes = app('router')->getRoutes();
         foreach ($all_routes as $k => $value) {
             if (array_key_exists('as', $value->action) && !ends_with($value->action['as'], '.white') && ends_with($value->action['as'], '.index') && !in_array($value->action['as'], $all_used_routes)) {
                 $routes[] = $value->action['as'];

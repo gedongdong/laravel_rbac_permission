@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+
 /*
  * This file is part of the gedongdong/laravel_rbac_permission.
  *
@@ -9,9 +11,12 @@
  * with this source code in the file LICENSE.
  */
 
-//以.white结尾的别名为不需要授权的路由
+Route::get('/', function () {
+    return view('welcome');
+});
 
-Route::namespace('Admin')->prefix('admin')->group(function () {
+//以.white结尾的别名为不需要授权的路由
+Route::namespace('App\Http\Controllers\Admin')->prefix('admin')->group(function () {
     Route::get('login', 'LoginController@index')->name('admin.login.white');
     Route::post('login', 'LoginController@login')->name('admin.login.post.white');
     Route::post('logout', 'LoginController@logout')->name('admin.logout.white');

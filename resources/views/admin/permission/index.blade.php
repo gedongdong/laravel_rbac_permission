@@ -61,7 +61,7 @@
         @endforeach
         </tbody>
     </table>
-    <div id="page" class="layui-box layui-laypage layui-laypage-default">{{ $permissions->links() }}</div>
+    <div id="page" class="layui-box layui-laypage layui-laypage-default">{{ $permissions->links('vendor.pagination.bootstrap-4') }}</div>
 @endsection
 
 @section('script')

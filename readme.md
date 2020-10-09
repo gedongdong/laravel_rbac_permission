@@ -10,9 +10,10 @@ password：admin123
 
 ## 环境要求
 
-* PHP >= 7.0
-* 该分支支持 Laravel 7.x
+* PHP >= 7.3
+* 该分支支持 Laravel 8.x
 * Laravel  5.5.* / 6.x 支持：https://github.com/gedongdong/laravel_rbac_permission/tree/master
+* Laravel  7.x 支持：https://github.com/gedongdong/laravel_rbac_permission/tree/laravel-7.x
 
 ## 基础功能
 
