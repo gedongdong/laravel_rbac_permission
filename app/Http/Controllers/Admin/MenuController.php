@@ -28,16 +28,16 @@ class MenuController extends Controller
 {
     public function index()
     {
-        $menu     = Menu::with('roles')->select('id', 'name as title', 'pid', 'route', 'created_at')->get()->toArray();
+        $menu = Menu::with('roles')->select('id', 'name as title', 'pid', 'route', 'created_at')->get()->toArray();
         $menu_arr = [];
         foreach ($menu as $m) {
             $menu_arr[] = [
-                'id'         => $m['id'],
-                'title'      => $m['title'],
-                'pid'        => $m['pid'],
-                'route'      => $m['route'],
+                'id' => $m['id'],
+                'title' => $m['title'],
+                'pid' => $m['pid'],
+                'route' => $m['route'],
                 'created_at' => date('Y-m-d H:i:s', strtotime($m['created_at'])),
-                'roles'      => array_column($m['roles'], 'name'),
+                'roles' => array_column($m['roles'], 'name'),
             ];
         }
 
@@ -47,8 +47,8 @@ class MenuController extends Controller
     public function create()
     {
         $top_menu = Menu::with('roles')->where('pid', '=', 0)->select('id', 'name')->get();
-        $routes   = RouteService::getMenuRoutes();
-        $roles    = Roles::all();
+        $routes = RouteService::getMenuRoutes();
+        $roles = Roles::all();
 
         return view('admin.menu.create', ['top_menu' => $top_menu, 'routes' => $routes, 'roles' => $roles]);
     }
@@ -68,16 +68,16 @@ class MenuController extends Controller
         try {
             $menu = new Menu();
 
-            $menu->name  = $params['name'];
-            $menu->pid   = $params['pid'];
+            $menu->name = $params['name'];
+            $menu->pid = $params['pid'];
             $menu->route = 0 == $params['pid'] ? null : $params['route'];
             $menu->save();
 
             $pivot = [];
             foreach ($params['role'] as $role) {
                 $pivot[] = [
-                    'menu_id'    => $menu->id,
-                    'roles_id'   => $role,
+                    'menu_id' => $menu->id,
+                    'roles_id' => $role,
                     'created_at' => date('Y-m-d H:i:s'),
                     'updated_at' => date('Y-m-d H:i:s'),
                 ];
@@ -100,7 +100,7 @@ class MenuController extends Controller
         $menu_id = $request->get('menu_id');
 
         $error = '';
-        $menu  = null;
+        $menu = null;
 
         $role_ids = [];
         if (!$menu_id) {
@@ -146,8 +146,8 @@ class MenuController extends Controller
             $menu = Menu::find($params['id']);
 
             if (1 != $menu->id && 1 != $menu->pid) {
-                $menu->name  = $params['name'];
-                $menu->pid   = $params['pid'];
+                $menu->name = $params['name'];
+                $menu->pid = $params['pid'];
                 $menu->route = 0 == $params['pid'] ? null : $params['route'];
                 $menu->save();
             }
@@ -158,8 +158,8 @@ class MenuController extends Controller
             $pivot = [];
             foreach ($params['role'] as $role) {
                 $pivot[] = [
-                    'menu_id'    => $menu->id,
-                    'roles_id'   => $role,
+                    'menu_id' => $menu->id,
+                    'roles_id' => $role,
                     'created_at' => date('Y-m-d H:i:s'),
                     'updated_at' => date('Y-m-d H:i:s'),
                 ];
