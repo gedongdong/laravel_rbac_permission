@@ -168,8 +168,6 @@ class UserController extends Controller
     /**
      * 修改用户状态
      *
-     * @param Request $request
-     *
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      */
     public function status(Request $request)
