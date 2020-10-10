@@ -13,7 +13,7 @@ password：admin123
 * PHP >= 7.0
 * 该分支支持 Laravel 7.x
 * Laravel  5.5.* / 6.x 支持：https://github.com/gedongdong/laravel_rbac_permission/tree/master
-* Laravel  8.x 支持：https://github.com/gedongdong/laravel_rbac_permission/tree/laravel-8.x（PHP >= 7.3）
+* Laravel  8.x 支持：https://github.com/gedongdong/laravel_rbac_permission/tree/laravel-8.x （PHP >= 7.3）
 
 ## 基础功能
 
