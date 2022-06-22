@@ -64,12 +64,13 @@
 
     <div class="layui-trans layadmin-user-login-footer">
 
-        <p>© 2019 <a href="http://www.layui.com/" target="_blank">Laravel RBAC Permission Admin</a></p>
+        <p>© 2019 <a href="https://github.com/gedongdong/laravel_rbac_permission" target="_blank">Laravel RBAC Permission Admin</a></p>
         <p>
-            <span><a href="http://www.layui.com" target="_blank">Layui</a></span>
+            <span><a href="https://github.com/gedongdong/laravel_rbac_permission" target="_blank">Layui</a></span>
             <span><a href="https://learnku.com/laravel" target="_blank">Laravel-China</a></span>
             <span><a href="https://github.com/gedongdong/laravel_rbac_permission" target="_blank">Github</a></span>
         </p>
+        <p><a href="http://www.miitbeian.gov.cn/">冀ICP备15027763号-1</a></p>
     </div>
 
 </div>
